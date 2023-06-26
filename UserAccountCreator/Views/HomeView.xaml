@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="UserAccountCreator.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:UserAccountCreator.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="HomeView"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid>
+
+        <TextBlock
+            Margin="15"
+            HorizontalAlignment="Left"
+            FontSize="23"
+            FontWeight="SemiBold"
+            Text="Какой-то красивенький заголовок" />
+
+        <Grid Margin="15,50,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ListView
+                Margin="0,0,0,40"
+                BorderThickness="0"
+                ItemsSource="{Binding ADUsers}"
+                SelectedItem="{Binding SelectedUser}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock
+                                FontWeight="DemiBold"
+                                Foreground="Black"
+                                Text="{Binding FullName}" />
+                            <TextBlock Opacity="0.5" Text="{Binding ., Converter={StaticResource ADUserToJobInfoConverter}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    Height="34"
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding AddNewUserCommand}"
+                    Content="+" />
+                <Button
+                    Grid.Column="1"
+                    Height="34"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding RemoveUserCommand}"
+                    Content="-" />
+            </Grid>
+        </Grid>
+
+        <Button
+            Width="250"
+            Height="34"
+            Margin="16"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="Далее"
+            FontSize="14" />
+    </Grid>
+</Page>
