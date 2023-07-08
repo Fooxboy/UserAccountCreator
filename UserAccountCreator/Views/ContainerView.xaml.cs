@@ -22,6 +22,8 @@ namespace UserAccountCreator.Views
 
         public static TranslitService TranslitService { get; private set; }
 
+        public static LoggerService LoggerService { get; private set; } 
+
         public ContainerView()
         {
             InitializeComponent();
@@ -35,11 +37,16 @@ namespace UserAccountCreator.Views
             ActiveDirectoryService = new ActiveDirectoryService(ConfigService, DepartmentsFactory);
             SharesService = new SharesService(ConfigService, DepartmentsFactory);
             TranslitService = new TranslitService();
+            LoggerService = new LoggerService();
         }
 
         private void ContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             ContainerView.NavigationService.NavigateTo(new HomeViewModel());
+
+            var logView = new LogsView();
+            logView.DataContext = new LogsViewModel();
+            this.LogsAppFrame.Navigate(logView);
         }
     }
 }

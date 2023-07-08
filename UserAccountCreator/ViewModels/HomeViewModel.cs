@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using UserAccountCreator.Models;
+using UserAccountCreator.Services;
 using UserAccountCreator.ViewModels.Modals;
 using UserAccountCreator.Views;
 
@@ -20,6 +21,8 @@ namespace UserAccountCreator.ViewModels
 
         public ICommand NextCommand { get; set; }
 
+        private readonly LoggerService _logger;
+
         public HomeViewModel()
         {
             ADUsers = new ObservableCollection<ADUser>();
@@ -27,6 +30,9 @@ namespace UserAccountCreator.ViewModels
             AddNewUserCommand = new AsyncCommand(AddNewUserAsync);
             RemoveUserCommand = new AsyncCommand(RemoveUserAsync);
             NextCommand = new AsyncCommand(NextAsync);
+
+            _logger = ContainerView.LoggerService;
+
         }
 
         public void OnEnter(object args)
@@ -49,6 +55,8 @@ namespace UserAccountCreator.ViewModels
             ADUsers.Add(user);
 
             ContainerView.NavigationService.CloseModal();
+
+            _logger.Print($"Новый пользователь в список на добавление: {user.FullName} ({user.UserName}) - {user.JobTitle}");
         }
 
         private void ViewModel_CancelButtonEvent()
@@ -61,6 +69,9 @@ namespace UserAccountCreator.ViewModels
             if (SelectedUser is null) return;
 
             ADUsers.Remove(SelectedUser);
+
+            _logger.Print($"Удален пользователь в список на добавление: {SelectedUser.FullName} ({SelectedUser.UserName}) - {SelectedUser.JobTitle}");
+
         }
 
         private async Task NextAsync()
